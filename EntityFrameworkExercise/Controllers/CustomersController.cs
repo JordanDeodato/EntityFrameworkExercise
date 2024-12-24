@@ -12,6 +12,8 @@ public class CustomersController(StoreContext context) : ControllerBase
 {
     // GET: api/Customers
     [HttpGet]
+    [ProducesResponseType(200, Type = typeof(CustomerResponse))]
+    [ProducesResponseType(404)]
     public async Task<ActionResult<IEnumerable<CustomerResponse>>> GetCustomers()
     {
         var customers = await context.Customers
@@ -27,9 +29,17 @@ public class CustomersController(StoreContext context) : ControllerBase
 
     // GET: api/Customers/5
     [HttpGet("{id}")]
+    [ProducesResponseType(200, Type = typeof(CustomerResponse))]
+    [ProducesResponseType(404)]
     public async Task<ActionResult<CustomerResponse>> GetCustomer(int id)
     {
-        var customer = await context.Customers.FindAsync(id);
+        var customer = await context.Customers.SingleAsync(c => c.Id == id);
+
+        if(customer == null) 
+        {
+            return NotFound();
+        }
+
         var customerResponse = new CustomerResponse 
         {
             Id = customer.Id,
@@ -41,9 +51,11 @@ public class CustomersController(StoreContext context) : ControllerBase
 
     // PUT: api/Customers/5
     [HttpPut("{id}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(404)]
     public async Task<IActionResult> PutCustomer(int id, CustomerUpdateRequest customerUpdateRequest)
     {
-        var customer = await context.Customers.FindAsync(id);
+        var customer = await context.Customers.SingleAsync(c => c.Id == id);
         customer.Name = customerUpdateRequest.Name;
         await context.SaveChangesAsync();
 
@@ -52,6 +64,8 @@ public class CustomersController(StoreContext context) : ControllerBase
 
     // POST: api/Customers
     [HttpPost]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(404)]
     public async Task<ActionResult<Customer>> PostCustomer(CustomerCreateRequest customerCreateRequest)
     {
         var customer = new Customer
@@ -66,11 +80,21 @@ public class CustomersController(StoreContext context) : ControllerBase
     }
 
     // DELETE: api/Customers/5
+    [ProducesResponseType(200)]
+    [ProducesResponseType(404)]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteCustomer(int id)
     {
-        var customer = await context.Customers.FindAsync(id);
-        context.Customers.Remove(customer);
+        var customer = await context.Customers.FirstOrDefaultAsync(x => x.Id == id);
+
+        if(customer == null)
+        {
+            return NotFound();
+        }
+
+        customer.DeletedAt = DateTime.UtcNow;
+        customer.IsDeleted = true;
+
         await context.SaveChangesAsync();
 
         return NoContent();

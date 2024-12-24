@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using EntityFrameworkExercise.Models.Interfaces;
 
 namespace EntityFrameworkExercise.Models;
 
 [Table("customer")]
-public class Customer
+public class Customer : IEntitySoftDelete
 {
     [Key]
     [Column("id")]
@@ -12,6 +13,9 @@ public class Customer
 
     [Column("name")]
     public string Name { get; set; } = string.Empty!;
+
+    public bool IsDeleted { get; set; }
+    public DateTime? DeletedAt { get; set; }
 
     public List<Sale> Sales { get; set; } = default!;
 }

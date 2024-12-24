@@ -14,6 +14,7 @@ public class StoreContext(DbContextOptions<StoreContext> options) : DbContext(op
             .UsingEntity<ProductSale>();
 
         base.OnModelCreating(modelBuilder);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(StoreContext).Assembly);
     }
 
     public DbSet<Seller> Sellers { get; set; } = default!;
