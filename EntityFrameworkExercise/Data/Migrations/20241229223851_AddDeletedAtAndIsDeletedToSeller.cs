@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EntityFrameworkExercise.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddSoftDeleteToCustomer : Migration
+    public partial class AddDeletedAtAndIsDeletedToSeller : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,42 +14,42 @@ namespace EntityFrameworkExercise.Data.Migrations
             migrationBuilder.AddColumn<DateTime>(
                 name: "deleted_at",
                 schema: "store",
-                table: "customer",
+                table: "seller",
                 type: "TEXT",
                 nullable: true);
 
             migrationBuilder.AddColumn<bool>(
                 name: "is_deleted",
                 schema: "store",
-                table: "customer",
+                table: "seller",
                 type: "INTEGER",
                 nullable: false,
                 defaultValue: false);
 
             migrationBuilder.CreateIndex(
-                name: "IX_customer_is_deleted",
+                name: "IX_seller_deleted_at",
                 schema: "store",
-                table: "customer",
+                table: "seller",
                 column: "deleted_at");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropIndex(
-                name: "IX_customer_is_deleted",
-                schema: "store",
-                table: "customer");
-
             migrationBuilder.DropColumn(
                 name: "deleted_at",
                 schema: "store",
-                table: "customer");
+                table: "seller");
 
             migrationBuilder.DropColumn(
                 name: "is_deleted",
                 schema: "store",
-                table: "customer");
+                table: "seller");
+
+            migrationBuilder.DropColumn(
+                name: "is_deleted",
+                schema: "store",
+                table: "seller");
         }
     }
 }

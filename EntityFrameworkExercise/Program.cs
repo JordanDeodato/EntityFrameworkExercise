@@ -10,12 +10,16 @@ var services = builder.Services;
 var connectionString = configuration.GetConnectionString("StoreContext")
     ?? throw new InvalidOperationException("Connection string 'StoreContext' not found.");
 
-services.AddDbContext<StoreContext>(options =>
+services.AddScoped<SoftDeleteInterceptor>();
+services.AddDbContext<StoreContext>((serviceProvider, options) =>
 {
     options.UseSqlite(connectionString, p =>
     {
         p.MigrationsHistoryTable("__EFMigrationsHistory", "store");
     });
+
+    var interceptor = serviceProvider.GetRequiredService<SoftDeleteInterceptor>();
+    options.AddInterceptors(interceptor);
 });
 
 services.AddControllers();

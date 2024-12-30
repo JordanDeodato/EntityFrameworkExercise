@@ -66,7 +66,7 @@ public class CustomersController(StoreContext context) : ControllerBase
     [HttpPost]
     [ProducesResponseType(200)]
     [ProducesResponseType(404)]
-    public async Task<ActionResult<Customer>> PostCustomer(CustomerCreateRequest customerCreateRequest)
+    public async Task<ActionResult<CustomerResponse>> PostCustomer(CustomerCreateRequest customerCreateRequest)
     {
         var customer = new Customer
         {
@@ -92,8 +92,7 @@ public class CustomersController(StoreContext context) : ControllerBase
             return NotFound();
         }
 
-        customer.DeletedAt = DateTime.UtcNow;
-        customer.IsDeleted = true;
+        context.Customers.Remove(customer);
 
         await context.SaveChangesAsync();
 

@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using EntityFrameworkExercise.Models.Interfaces;
 
 namespace EntityFrameworkExercise.Models;
 
 [Table("sale")]
-public class Sale
+public class Sale : IEntitySoftDelete
 {
     [Key]
     [Column("id")]
