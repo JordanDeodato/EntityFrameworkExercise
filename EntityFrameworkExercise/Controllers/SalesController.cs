@@ -19,7 +19,7 @@ public class SalesController(StoreContext context) : ControllerBase
     [HttpGet]
     [ProducesResponseType(200, Type = typeof(SaleResponse))]
     [ProducesResponseType(404)]
-    public async Task<ActionResult<IEnumerable<SaleResponse>>> GetSales()
+    public async Task<ActionResult> GetSales()
     {
         var sales = await context.Sales.
         Select(sale => new SaleResponse 
@@ -37,7 +37,7 @@ public class SalesController(StoreContext context) : ControllerBase
     [HttpGet("{id}")]
     [ProducesResponseType(200, Type = typeof(SaleResponse))]
     [ProducesResponseType(404)]
-    public async Task<ActionResult<SaleResponse>> GetSale(int id)
+    public async Task<ActionResult> GetSale(int id)
     {
         var sale = await context.Sales.SingleAsync(sale => sale.Id == id);
             
@@ -80,9 +80,9 @@ public class SalesController(StoreContext context) : ControllerBase
 
     // POST: api/Sales
     [HttpPost]
-    [ProducesResponseType(200)]
+    [ProducesResponseType(201)]
     [ProducesResponseType(404)]
-    public async Task<ActionResult<SaleResponse>> PostSale(SaleCreateRequest saleCreateRequest)
+    public async Task<ActionResult> PostSale(SaleCreateRequest saleCreateRequest)
     {
         var sale = new Sale
         {

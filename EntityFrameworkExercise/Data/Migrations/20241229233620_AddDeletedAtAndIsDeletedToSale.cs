@@ -36,13 +36,14 @@ namespace EntityFrameworkExercise.Data.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "deleted_at",
+
+            migrationBuilder.DropIndex(
+                name: "IX_sale_is_deleted",
                 schema: "store",
                 table: "sale");
 
             migrationBuilder.DropColumn(
-                name: "is_deleted",
+                name: "deleted_at",
                 schema: "store",
                 table: "sale");
 

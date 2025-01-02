@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EntityFrameworkExercise.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddDeletedAtAndIsDeletedToSeller : Migration
+    public partial class AddDeletedAtAndIsDeletedToProducts : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,22 +14,22 @@ namespace EntityFrameworkExercise.Data.Migrations
             migrationBuilder.AddColumn<DateTime>(
                 name: "deleted_at",
                 schema: "store",
-                table: "seller",
+                table: "product",
                 type: "TEXT",
                 nullable: true);
 
             migrationBuilder.AddColumn<bool>(
                 name: "is_deleted",
                 schema: "store",
-                table: "seller",
+                table: "product",
                 type: "INTEGER",
                 nullable: false,
                 defaultValue: false);
 
             migrationBuilder.CreateIndex(
-                name: "IX_seller_deleted_at",
+                name: "IX_product_deleted_at",
                 schema: "store",
-                table: "seller",
+                table: "product",
                 column: "deleted_at");
         }
 
@@ -38,19 +38,19 @@ namespace EntityFrameworkExercise.Data.Migrations
         {
 
             migrationBuilder.DropIndex(
-                name: "IX_seller_is_deleted",
+                name: "IX_product_is_deleted",
                 schema: "store",
-                table: "seller");
+                table: "product");
 
             migrationBuilder.DropColumn(
                 name: "deleted_at",
                 schema: "store",
-                table: "seller");
+                table: "product");
 
             migrationBuilder.DropColumn(
                 name: "is_deleted",
                 schema: "store",
-                table: "seller");
+                table: "product");
         }
     }
 }

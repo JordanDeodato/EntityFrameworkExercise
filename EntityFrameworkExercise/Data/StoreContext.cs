@@ -3,15 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EntityFrameworkExercise.Data;
 
-public class StoreContext(DbContextOptions<StoreContext> options, SoftDeleteInterceptor softDeleteInterceptor) : DbContext(options)
+public class StoreContext(DbContextOptions<StoreContext> options) : DbContext(options)
 {
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
-
-        optionsBuilder.AddInterceptors(softDeleteInterceptor);
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("store");

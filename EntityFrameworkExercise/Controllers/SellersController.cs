@@ -14,7 +14,7 @@ public class SellersController(StoreContext context) : ControllerBase
     [HttpGet]
     [ProducesResponseType(200, Type = typeof(SellerResponse))]
     [ProducesResponseType(404)]
-    public async Task<ActionResult<IEnumerable<SellerResponse>>> GetSellers()
+    public async Task<ActionResult> GetSellers()
     {
         var sellers = await context.Sellers
             .Select(seller => new SellerResponse 
@@ -29,7 +29,7 @@ public class SellersController(StoreContext context) : ControllerBase
     [HttpGet("{id}")]
     [ProducesResponseType(200, Type = typeof(SellerResponse))]
     [ProducesResponseType(404)]
-    public async Task<ActionResult<SellerResponse>> GetSeller(int id)
+    public async Task<ActionResult> GetSeller(int id)
     {
         var seller = await context.Sellers.SingleAsync(s => s.Id == id);
 
@@ -62,9 +62,9 @@ public class SellersController(StoreContext context) : ControllerBase
 
     // POST: api/Sellers
     [HttpPost]
-    [ProducesResponseType(200)]
+    [ProducesResponseType(201)]
     [ProducesResponseType(404)]
-    public async Task<ActionResult<SellerResponse>> PostSeller(SellerCreateRequest sellerCreateRequest)
+    public async Task<ActionResult> PostSeller(SellerCreateRequest sellerCreateRequest)
     {
         var seller = new Seller
         {
